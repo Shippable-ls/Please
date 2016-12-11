@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact</title>
+  </head>
+  <body>
+    {{> header}}
+
+    <main class="main contact">
+      <div class="container">
+        <h1 class="heading">Contact</h1>
+      </div>
+      
+    <p>Call: 07787408496</p>
+    </main>
+    
+    {{#if error}}
+  <p class="error">{{message}}</p>
+{{/if}}
+
+   {{#if success}}
+  <p class="Welcome">{{message}}</p>
+{{/if}}
+    
+    <form class="form" method="post" action="/contact">
+  <div class="field">
+    <label class="label">Name</label>
+    <input class="input" type="text" name="name" value="{{formBody.name}}">
+  </div>
+
+  <div class="field">
+    <label class="label">Email</label>
+    <input class="input" type="email" name="email" value="{{formBody.email}}">
+  </div>
+
+  <div class="field">
+    <label class="label">Subject</label>
+    <div class="select">
+      <select name="subject">
+        <option value="press">Press inquiry</option>
+        <option value="work">Work opportunity</option>
+        <option value="hi">Just to say hi!</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Message</label>
+    <textarea class="textarea" name="message">{{formBody.message}}</textarea>
+  </div>
+
+  <div class="field no-label">
+    <button class="button">Send</button>
+  </div>
+</form>
+
+    {{> footer}}
+  </body>
+</html>
+
+
+<!-- 
+Q's
+1. Can I add this Blog page to my site which is running on a Wordpress template
+2. Quick Github explaination
+3.  -->

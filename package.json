@@ -1,0 +1,19 @@
+{
+    "name": "js-course",
+    "version": "1.0.0",
+    "description": "The Code at Uni JavaScript Course",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "author": "Code At Uni",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.15.2",
+        "express": "^4.14.0",
+        "express-handlebars": "^3.0.0",
+        "mailgun-js": "^0.7.14"
+    },
+    "devDependencies": {
+    }
+}
