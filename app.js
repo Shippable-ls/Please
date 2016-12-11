@@ -19,82 +19,35 @@ var blogPosts = {
   },
 };
 
-
-var express = require('express'); 
-var exphbs = require('express-handlebars');
+var express = require('express');
 var bodyParser = require('body-parser');
-
-var mailgun = require("mailgun-js") ({
-  apiKey: 'key-7e7e5982aa568bb89a1d2919c4790528',
-  domain: 'sandboxf0bc1f079a6e43baa7fd1b6d11cd9b06.mailgun.org'
-
+var exphbs  = require('express-handlebars');
+var livereload = require('livereload');
+var mailgun = require('mailgun-js')({ 
+  apiKey: 'key-31facac671b2b0af91c9b4118bafdf58', 
+  domain: 'sandbox3a4e53f45ca441429d637dd312f322bb.mailgun.org' 
 });
 
-
-
+// Ready up Express so we can start using it
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.set('view engine', '.hbs');
 
-// Path to our public directory
+//enables us to reference static files in the public folder
 app.use(express.static('public'));
 
-// Register '.handlebars' extension with exphbs
-app.engine('.hbs', exphbs({extname: '.hbs'}));
-// Set our default template engine to "handlebars"
-app.set('view engine', '.hbs');
+//enables us to parse data received from the front end
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Homepage
 app.get('/', function (request, response) {
-  response.render('home.hbs');
+    response.render('home');
 });
 
 // Contact Page
-app.get('/contact', function(request, response){
-  response.render('contact.hbs');
-});
-
-//About route 
-app.get('/About', function(request, response){
-  response.send('This the boring about page');
-  
-});
-//blog route
-app.get('/blog', function(request, response){
-  
-  var listOfPosts = [];
- var blogPostKeys = Object.keys(blogPosts);
- 
- //  objectKeys = ['my-first webpage', 'hello-world'];
- 
- blogPostKeys.forEach(function(blogId){
- 
-  var post = blogPosts[blogId];
-  post.id = blogId;
- listOfPosts.push(post);
-   
- });
- 
-  response.render('blog', {
-    posts: listOfPosts
-  });
-});
-
-// A single blog post
-app.get('/blog/:post_id', function(req, res) {
-  // Extract the id from the url entered
-  var postId = req.params['post_id'];
-
-  // Find the post
-  var post = blogPosts[postId];
-
-  // Show a 404 page if the post does not exist
-  if (!post) {
-    res.send('Not found');
-  } else {
-    // Render post.handlebars with the data it needs
-    res.render('post', post);
-  }
+app.get('/contact', function (request, response) {
+    response.render('contact');
 });
 
 // Handle the contact form submission
@@ -124,7 +77,7 @@ app.post('/contact', function (request, response) {
 
     var emailOptions = {
       from: formBody.name + '<' + formBody.email + '>',
-      to: 'luke@intelletec.com',
+      to: 'paulfitz99@gmail.com',
       subject: 'Website contact form - ' + formBody.subject,
       text: formBody.message
     }
@@ -147,7 +100,33 @@ app.post('/contact', function (request, response) {
   }
 });
 
-// Start our server on port 5000
+//Blog page
+app.get('/blog', function (request, response) {
+	var listOfPosts = [];
+	Object.keys(blogPosts).forEach(function (postId) {
+		var post = blogPosts[postId];
+		post.id = postId;
+		listOfPosts.push(post);
+	});
+
+	response.render('blog', {
+		posts: listOfPosts
+	})
+});
+
+//Individual blog page
+app.get('/blog/:post_id', function (request, response) {
+	var postId = request.params['post_id'];
+	var post = blogPosts[postId];
+
+	if(!post){
+		response.render('Page not found!')
+	} else {
+		response.render('post', post);
+	}
+});
+
+// Start our on port 5000
 app.listen(5000, function () {
-  console.log('Lesson 1 listening on port 5000!');
+	console.log('Lesson 5 listening on port 5000!');
 });

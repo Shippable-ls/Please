@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}} | Blog</title>
+    <title>{{post.title}} | Blog</title>
+    {{> head}}
   </head>
   <body>
     {{> header}}
@@ -10,11 +11,11 @@
       <div class="container">
         <h1 class="heading">
           <a href="/blog">Blog</a>
-          <strong>{{title}}</strong>
+          <strong>{{post.title}}</strong>
         </h1>
 
         <main class="post-content">
-          {{{content}}}
+          {{{post.content}}}
         </main>
       </div>
     </main>
